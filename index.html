@@ -30,7 +30,7 @@ window.addEventListener('message',e=>{
   }
   prevH[s]=h;
 });
-const NSLOT=2;
+const NSLOT=4;
 const slots=[];
 function newPop(slot){
   const name='s'+slot+'x'+Math.random().toString(36).slice(2,6);
@@ -63,13 +63,13 @@ async function cycle(s,id,doPlant,query,tag){
     pop=freshPop(s);
     if(!pop.win)return {err:'nopop'};
   }
-  if(doPlant){plantVia(pop,id,'!probe!');await wsleep(900);}
+  if(doPlant){plantVia(pop,id,'!probe!');await wsleep(500);}
   try{pop.win.location=T+'/notes/'+id+'/'+encodeURIComponent(query);}catch(e){return {err:'nav'};}
-  await wsleep(650);
+  await wsleep(400);
   try{pop.win.stop();}catch(e){}
   try{pop.win.location=CB+'?c='+encodeURIComponent(tag)+'&s='+s+'&pv='+encodeURIComponent(lastVerdict);}catch(e){return {err:'cbnav'};}
   pop.cycles++;
-  await wsleep(400);
+  await wsleep(300);
   return {ok:1};
 }
 const A1='abcdefghijklmnopqrstuvwxyz0123456789_';
