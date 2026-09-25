@@ -103,10 +103,8 @@ async function extractPass(s,id,prefix){
   for(let i=0;i<NSLOT;i++){slots[i]=newPop(i);prevH[i]=undefined;}
   ib('popinit',{n:slots.filter(x=>x.ok).length});
   for(let s=0;s<NSLOT;s++){
-    for(let i=0;i<2;i++){
-      await cycle(s,999999999,true,'!probe','CTRL'+s+'x'+i);
-      await wsleep(1500);
-    }
+    await cycle(s,999999999,true,'!probe','CTRL'+s+'x0');
+    await wsleep(700);
   }
   ib('ctrls-done',{},2);
   if(P.id){
@@ -122,7 +120,7 @@ async function extractPass(s,id,prefix){
       while(myid<P.max&&!stop){
         const tag='S'+myid+'x0';
         await cycle(s,myid,true,'!probe',tag);
-        await wsleep(500);
+        await wsleep(250);
         if(vTag[tag]===2){
           ib('hit2',{id:myid},3);
           const ok=await scanCycles(s,myid,2);
@@ -133,7 +131,7 @@ async function extractPass(s,id,prefix){
             return;
           }else{ib('rej',{id:myid},2);}
         }
-        if(myid%20===0){ib('prog',{id:myid,lv:lastVerdict},1);}
+        if(myid%10===0){ib('prog',{id:myid,lv:lastVerdict},1);}
         myid+=NSLOT;
       }
     })());
